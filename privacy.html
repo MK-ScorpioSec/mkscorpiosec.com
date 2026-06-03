@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'sha256-ZCSgKhyyzDu3am00sL8EQqJDYLPLDDTgwhLEsJYU8zs='; img-src 'self' data: https:; connect-src 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — MK ScorpioSec</title>
+<meta name="robots" content="noindex">
+
+<style>
+:root {
+  --red:       #D62828;
+  --red-dim:   #a81e1e;
+  --gold:      #C9922A;
+  --gold-light:#e8b455;
+  --dark:      #0e0d0c;
+  --dark2:     #161412;
+  --dark3:     #1e1c19;
+  --surface:   #242119;
+  --light:     #F5F5F4;
+  --muted:     #9a9690;
+  --border:    rgba(214,40,40,0.2);
+  --font-head: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--dark);
+  color: var(--light);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+::selection { background: var(--red); color: #fff; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem; height: 64px;
+  background: rgba(14,13,12,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 0.75rem; text-decoration: none;
+}
+.nav-logo img {
+  height: 36px; width: 36px; border-radius: 50%;
+  object-fit: cover; border: 1.5px solid var(--gold);
+}
+.nav-logo-text {
+  font-family: var(--font-head); font-weight: 700;
+  font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.nav-logo-text .mk { color: var(--gold); }
+.nav-logo-text .sc { color: var(--red); }
+.nav-back {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  display: flex; align-items: center; gap: 0.5rem;
+  transition: color 0.2s;
+}
+.nav-back::before { content: '←'; color: var(--red); }
+.nav-back:hover { color: var(--light); }
+
+/* MAIN */
+main { flex: 1; max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; width: 100%; }
+
+/* PAGE HEADER */
+.page-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.page-kicker {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 0.6rem; display: block;
+}
+.page-title {
+  font-family: var(--font-head); font-weight: 900;
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  text-transform: uppercase; line-height: 0.95;
+  color: var(--light); margin-bottom: 0.75rem;
+}
+.page-meta {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  letter-spacing: 0.1em; color: var(--muted);
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.page-meta span { display: flex; align-items: center; gap: 0.4rem; }
+.page-meta span::before { content: '//'; color: var(--red); opacity: 0.6; font-size: 0.6rem; }
+
+/* CONTENT */
+.doc-section { margin-bottom: 2.5rem; }
+.doc-section h2 {
+  font-family: var(--font-head); font-weight: 700;
+  font-size: 1.3rem; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--gold);
+  margin-bottom: 0.85rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.doc-section h2::before {
+  content: ''; display: block;
+  width: 2rem; height: 2px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  border-radius: 1px; flex-shrink: 0;
+}
+.doc-section p {
+  font-size: 0.92rem; color: var(--muted);
+  line-height: 1.75; margin-bottom: 0.85rem;
+}
+.doc-section p a { color: var(--red); text-decoration: none; transition: color 0.2s; }
+.doc-section p a:hover { color: var(--gold-light); }
+.doc-section p strong { color: var(--light); font-weight: 500; }
+
+/* HIGHLIGHT BLOCK */
+.highlight-block {
+  background: var(--dark3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 0 4px 4px 0;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.highlight-block .label {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 0.5rem; display: block;
+}
+.highlight-block p {
+  font-family: var(--font-mono); font-size: 0.82rem;
+  color: var(--light); line-height: 1.6; margin: 0;
+}
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+  background: var(--dark2);
+  flex-shrink: 0;
+}
+.footer-copy {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  color: var(--muted); letter-spacing: 0.05em;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--light); }
+.footer-links a.current { color: var(--red); pointer-events: none; }
+
+@media (max-width: 600px) {
+  nav { padding: 0 1.25rem; }
+  main { padding: 2.5rem 1.25rem 4rem; }
+  footer { padding: 1.25rem; flex-direction: column; }
+}
+</style>
+
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="assets/logo-sq.png" alt="MK ScorpioSec">
+    <span class="nav-logo-text"><span class="mk">MK</span> <span class="sc">SCORPIOSEC</span></span>
+  </a>
+  <a href="index.html" class="nav-back">Back to home</a>
+</nav>
+<main>
+  <div class="page-header">
+    <span class="page-kicker">Legal</span>
+    <h1 class="page-title">Privacy Policy</h1>
+    <div class="page-meta"><span>Last updated: May 2026</span><span>Buenos Aires, Argentina</span><span>GDPR + Ley 25.326</span></div>
+  </div>
+  
+<div class="highlight-block">
+  <span class="label">// TL;DR</span>
+  <p>No analytics. No tracking cookies. No third-party data sharing. The only data collected is what you voluntarily send via the contact form.</p>
+</div>
+
+<div class="doc-section">
+  <h2>Data Controller</h2>
+  <p>Mike Martínez Oroz, trading as <strong>MK ScorpioSec</strong>, Buenos Aires, Argentina.<br>
+  Contact: <a href="mailto:mike@mkscorpiosec.com">mike@mkscorpiosec.com</a></p>
+</div>
+
+<div class="doc-section">
+  <h2>What Data Is Collected</h2>
+  <p>This website does not use analytics, tracking pixels, or cookies. The only personal data collected is what you voluntarily provide when using the contact form or reaching out via email: your name, email address, and message content.</p>
+</div>
+
+<div class="doc-section">
+  <h2>How Your Data Is Used</h2>
+  <p>Your data is used solely to respond to your inquiry. It is <strong>never sold, shared with third parties, or used for marketing</strong> without your explicit consent.</p>
+</div>
+
+<div class="doc-section">
+  <h2>Data Retention</h2>
+  <p>Contact information is retained only as long as necessary to maintain the business relationship or correspondence. You may request deletion at any time by emailing <a href="mailto:mike@mkscorpiosec.com">mike@mkscorpiosec.com</a>.</p>
+</div>
+
+<div class="doc-section">
+  <h2>Cookies &amp; Tracking</h2>
+  <p>This site does not use cookies, analytics trackers, or any third-party tracking technology. No user behaviour data is collected or stored.</p>
+</div>
+
+<div class="doc-section">
+  <h2>Hosting Infrastructure</h2>
+  <p>This site is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., a Microsoft subsidiary). GitHub may process server access logs — including IP addresses and browser metadata — for security, abuse prevention, and infrastructure operation purposes. This processing is governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener noreferrer" target="_blank">GitHub's Privacy Statement</a>. MK ScorpioSec does not have access to these logs.</p>
+  <p>All fonts and static assets on this site are self-hosted. No requests are made to external CDNs or third-party servers when you visit this site.</p>
+</div>
+
+<div class="doc-section">
+  <h2>Your Rights</h2>
+  <p>Under <strong>GDPR</strong> (EU residents) and Argentina's <strong>Ley 25.326</strong>, you have the right to access, rectify, and request deletion of any personal data held about you. To exercise these rights: <a href="mailto:mike@mkscorpiosec.com">mike@mkscorpiosec.com</a></p>
+</div>
+
+<div class="doc-section">
+  <h2>Security</h2>
+  <p>Personal data received via email is handled in accordance with professional security standards. Client data related to security engagements is processed exclusively in controlled local environments and never transmitted to cloud infrastructure without explicit anonymization.</p>
+</div>
+
+<div class="doc-section">
+  <h2>Changes to This Policy</h2>
+  <p>This policy may be updated periodically. The current version is always available at this URL. Continued use of the site after changes constitutes acceptance.</p>
+</div>
+
+</main>
+<footer>
+  <span class="footer-copy">© 2026 Mike Martínez Oroz · MK ScorpioSec · Argentina</span>
+  <div class="footer-links"><a href="privacy.html" class="current">Privacy</a><a href="terms.html">Terms</a><a href="cookies.html">Cookies</a></div>
+</footer>
+</body>
+</html>

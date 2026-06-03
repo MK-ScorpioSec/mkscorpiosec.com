@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'sha256-ZCSgKhyyzDu3am00sL8EQqJDYLPLDDTgwhLEsJYU8zs='; img-src 'self' data: https:; connect-src 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MK ScorpioSec — AI-Driven Pentesting, Compliance & Security Engineering. IaC security, LLM assessment, post-quantum cryptography, cloud security.">
+<meta name="author" content="Mike Martínez Oroz">
+<meta property="og:title" content="MK ScorpioSec — I find what others miss.">
+<meta property="og:description" content="AI-Driven Pentesting, Compliance & Security Engineering by Mike Martínez Oroz.">
+<meta property="og:image" content="assets/banner.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#D62828">
+<title>MK ScorpioSec — I find what others miss.</title>
+
+<style>
+:root {
+  --red: #D62828;
+  --red-dim: #a81e1e;
+  --gold: #C9922A;
+  --gold-light: #e8b455;
+  --dark: #0e0d0c;
+  --dark2: #161412;
+  --dark3: #1e1c19;
+  --surface: #242119;
+  --light: #F5F5F4;
+  --muted: #9a9690;
+  --border: rgba(214,40,40,0.2);
+  --font-head: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--dark);
+  color: var(--light);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+::selection { background: var(--red); color: #fff; }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(14,13,12,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+nav.scrolled { height: 56px; border-bottom-color: rgba(214,40,40,0.4); }
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+.nav-logo img {
+  height: 38px; width: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--gold);
+}
+.nav-logo-text {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.nav-logo-text .mk { color: var(--gold); }
+
+.nav-links { display: flex; gap: 0.25rem; list-style: none; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.4rem 0.75rem;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0.75rem; right: 0.75rem;
+  height: 1px;
+  background: var(--red);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-links a:hover { color: var(--light); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  background: var(--red);
+  color: #fff !important;
+  padding: 0.45rem 1.1rem !important;
+  border-radius: 2px;
+}
+.nav-cta:hover { background: var(--red-dim) !important; }
+.nav-cta::after { display: none !important; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--light); transition: all 0.3s; }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('assets/banner.png') center/cover no-repeat;
+  opacity: 0.6;
+  z-index: 0;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(14,13,12,0.45) 0%, rgba(14,13,12,0.15) 45%, rgba(14,13,12,0.88) 100%);
+}
+.hero-hex {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: radial-gradient(circle, rgba(214,40,40,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.6;
+}
+.hero-content { position: relative; z-index: 1; max-width: 860px; }
+
+.hero-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 0.3rem 0.9rem;
+  border-radius: 2px;
+  margin-bottom: 1.8rem;
+  animation: fadeIn 0.6s ease both;
+}
+.hero-title {
+  font-family: var(--font-head);
+  font-weight: 900;
+  font-size: clamp(3.2rem, 9vw, 7.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--light);
+  margin-bottom: 0.6rem;
+  animation: slideUp 0.7s ease 0.15s both;
+}
+.hero-title .accent { color: var(--red); }
+.hero-subtitle {
+  font-family: var(--font-head);
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 2rem;
+  animation: slideUp 0.7s ease 0.25s both;
+}
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+  animation: fadeIn 0.7s ease 0.4s both;
+}
+.hero-actions {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  animation: fadeIn 0.7s ease 0.55s both;
+}
+.hero-scroll {
+  position: absolute; bottom: 2rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  animation: bounce 2s infinite;
+  opacity: 0.4;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-align: center;
+}
+.hero-scroll::before {
+  content: '';
+  display: block;
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--red));
+  margin: 0 auto 0.5rem;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  background: var(--red); color: #fff;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  transition: all 0.2s;
+  border: 1px solid var(--red);
+}
+.btn-primary:hover { background: transparent; color: var(--red); }
+.btn-ghost {
+  background: transparent; color: var(--light);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  border: 1px solid rgba(245,245,244,0.2);
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--light); }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  background: var(--dark2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: var(--font-head);
+  font-weight: 700; font-size: 2rem;
+  color: var(--red); line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+/* ── SECTIONS ── */
+section { padding: 5rem 2rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 0.6rem;
+}
+.section-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 3rem);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--light);
+  margin-bottom: 0.5rem;
+}
+.section-sub { color: var(--muted); font-size: 0.95rem; max-width: 520px; margin-bottom: 3.5rem; }
+.section-divider { width: 3rem; height: 2px; background: linear-gradient(to right, var(--red), transparent); margin-bottom: 2rem; }
+
+/* ── SERVICES ── */
+#services { background: var(--dark2); }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.service-card {
+  background: var(--dark2);
+  padding: 2rem;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 2px; height: 0;
+  background: var(--red);
+  transition: height 0.3s;
+}
+.service-card:hover { background: var(--dark3); }
+.service-card:hover::before { height: 100%; }
+.service-num { font-family: var(--font-mono); font-size: 0.65rem; color: var(--red); letter-spacing: 0.1em; margin-bottom: 1rem; }
+.service-name { font-family: var(--font-head); font-weight: 600; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--light); margin-bottom: 0.75rem; line-height: 1.2; }
+.service-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+.service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
+.tag {
+  font-family: var(--font-mono); font-size: 0.6rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(201,146,42,0.3);
+  padding: 0.15rem 0.5rem; border-radius: 2px;
+}
+
+/* ── TOOLS ── */
+#tools { background: var(--dark); }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+.tool-card {
+  background: var(--dark3); border: 1px solid var(--border);
+  padding: 2rem; border-radius: 4px;
+  transition: border-color 0.2s, transform 0.2s;
+  text-decoration: none; display: block; color: inherit;
+}
+.tool-card:hover { border-color: var(--red); transform: translateY(-3px); }
+.tool-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; }
+.tool-name { font-family: var(--font-mono); font-weight: 500; font-size: 1rem; color: var(--gold-light); }
+.tool-status { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+.status-live { background: rgba(0,200,100,0.12); color: #00c864; border: 1px solid rgba(0,200,100,0.3); }
+.status-soon { background: rgba(201,146,42,0.12); color: var(--gold); border: 1px solid rgba(201,146,42,0.3); }
+.tool-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+.tool-finding {
+  background: var(--surface); border-left: 2px solid var(--red);
+  padding: 0.6rem 0.9rem;
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--light);
+  margin-bottom: 1rem;
+}
+.tool-link { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--red); text-transform: uppercase; }
+.tool-link::after { content: ' →'; }
+
+/* ── RESEARCH ── */
+#research { background: #0b1e32; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.research-card { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.research-badge {
+  display: inline-block; font-family: var(--font-mono);
+  font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--red); border: 1px solid var(--red);
+  padding: 0.25rem 0.7rem; border-radius: 2px; margin-bottom: 1.5rem;
+}
+.research-title { font-family: var(--font-head); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.5rem); text-transform: uppercase; line-height: 1.05; color: var(--light); margin-bottom: 1rem; }
+.research-text { font-size: 0.93rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
+.research-stats { display: flex; flex-direction: column; gap: 1.2rem; }
+.r-stat { display: flex; align-items: baseline; gap: 1rem; }
+.r-stat-num { font-family: var(--font-head); font-weight: 900; font-size: 3rem; color: var(--red); line-height: 1; min-width: 80px; }
+.r-stat-info strong { font-family: var(--font-head); font-weight: 600; font-size: 1rem; text-transform: uppercase; display: block; color: var(--light); }
+.r-stat-info span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); }
+
+/* ── ABOUT ── */
+#about { background: var(--dark3); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text p { font-size: 0.95rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.2rem; }
+.about-text p strong { color: var(--light); font-weight: 500; }
+.about-principles { display: flex; flex-direction: column; gap: 1rem; }
+.principle {
+  background: var(--dark2); border: 1px solid var(--border);
+  padding: 1.25rem 1.5rem; border-radius: 3px;
+  display: flex; align-items: flex-start; gap: 1rem;
+}
+.principle-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+.principle-title { font-family: var(--font-head); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--light); margin-bottom: 0.25rem; }
+.principle-desc { font-size: 0.82rem; color: var(--muted); }
+
+/* ── CONTACT ── */
+#contact { background: var(--dark); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: var(--dark3); border: 1px solid rgba(245,245,244,0.1);
+  color: var(--light); font-family: var(--font-body); font-size: 0.9rem;
+  padding: 0.75rem 1rem; border-radius: 3px; outline: none;
+  transition: border-color 0.2s; -webkit-appearance: none;
+}
+.form-group select { cursor: pointer; }
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus { border-color: var(--red); }
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(154,150,144,0.5); }
+.form-group textarea { resize: vertical; min-height: 130px; }
+.contact-channels { display: flex; flex-direction: column; gap: 1rem; }
+.contact-channels h3 { font-family: var(--font-head); font-weight: 600; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--light); margin-bottom: 0.5rem; }
+.channel {
+  display: flex; align-items: center; gap: 1rem;
+  text-decoration: none; color: var(--muted);
+  padding: 0.85rem 1.1rem;
+  background: var(--dark3); border: 1px solid var(--border);
+  border-radius: 3px; transition: all 0.2s; font-size: 0.88rem;
+}
+.channel:hover { border-color: var(--red); color: var(--light); transform: translateX(4px); }
+.channel-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.channel-icon svg { width: 18px; height: 18px; fill: var(--red); }
+.channel-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); display: block; margin-bottom: 0.1rem; }
+.channel-value { font-size: 0.85rem; }
+
+/* ── FOOTER ── */
+footer { background: var(--dark2); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem; margin-bottom: 2.5rem; }
+.footer-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; margin-bottom: 0.75rem; }
+.footer-logo img { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); }
+.footer-logo-text { font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+.footer-logo-text .mk { color: var(--gold); }
+.footer-tagline { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; max-width: 260px; }
+.footer-links-group h4 { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+.footer-links-group ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.footer-links-group a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links-group a:hover { color: var(--light); }
+.footer-social { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+.social-link { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; text-decoration: none; color: var(--muted); transition: all 0.2s; font-size: 0.8rem; }
+.social-link:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.05em; }
+.footer-legal { display: flex; gap: 1.5rem; }
+.footer-legal a { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-legal a:hover { color: var(--light); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 820px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none; position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--dark2); flex-direction: column;
+    padding: 1.5rem; border-bottom: 1px solid var(--border); gap: 0;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { border-bottom: 1px solid var(--border); }
+  .nav-links a { display: block; padding: 0.75rem 0; font-size: 0.85rem; }
+  .research-card,
+  .about-grid,
+  .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { flex-direction: column; }
+  .stats-bar { gap: 2rem; }
+}
+@media (max-width: 480px) {
+  section { padding: 3.5rem 1.25rem; }
+  .services-grid,
+  .tools-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <img src="assets/logo-sq.png" alt="MK ScorpioSec">
+    <span class="nav-logo-text"><span class="mk">MK</span> SCORPIOSEC</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-hex"></div>
+  <div class="hero-content">
+    <span class="hero-tag">AI-Driven Security · Est. 2026 · Buenos Aires, AR</span>
+    <h1 class="hero-title">I find what<br><span class="accent">others miss.</span></h1>
+    <p class="hero-subtitle">Pentesting · Compliance · Security Engineering</p>
+    <p class="hero-desc">
+      18+ years in IT security. I build the tools I use.
+      Every finding goes through human review.
+      No boilerplate. No offshore teams. Just results.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Request Assessment</a>
+      <a href="#services" class="btn-ghost">View Services</a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat reveal">
+    <div class="stat-num">18+</div>
+    <div class="stat-label">Years in IT Security</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-num">187</div>
+    <div class="stat-label">Undocumented findings (TerraGoat)</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-num">9</div>
+    <div class="stat-label">pq-audit audit layers</div>
+  </div>
+  <div class="stat reveal">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Service areas</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <p class="section-label reveal">What I do</p>
+    <h2 class="section-title reveal">Services</h2>
+    <div class="section-divider reveal"></div>
+    <p class="section-sub reveal">Consulting delivered as a solo operator. No layers, no account managers — you talk directly to the person doing the work.</p>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-num">01 — IaC</div>
+        <div class="service-name">IaC Security Analysis</div>
+        <div class="service-desc">Terraform, CloudFormation, Bicep. Multi-scanner pipeline (Trivy + Checkov + pq-audit). Gap matrix between tools revealing what single scanners miss.</div>
+        <div class="service-tags">
+          <span class="tag">Terraform</span><span class="tag">CloudFormation</span>
+          <span class="tag">Bicep</span><span class="tag">Trivy</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">02 — AI/LLM</div>
+        <div class="service-name">AI &amp; LLM Security Assessment</div>
+        <div class="service-desc">MCP server auditing, agentic pipeline testing, prompt injection, tool-use abuse. Attack surfaces that traditional pentests don't reach.</div>
+        <div class="service-tags">
+          <span class="tag">MCP Audit</span><span class="tag">Prompt Injection</span><span class="tag">Agentic</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">03 — PQC</div>
+        <div class="service-name">Post-Quantum Cryptography Audit</div>
+        <div class="service-desc">Cryptographic posture against NIST FIPS 203/204/205. BROKEN_NOW and SNDL_VULNERABLE classification. Mapped to DORA Art. 9, NIS2, NIST SP 800-131A.</div>
+        <div class="service-tags">
+          <span class="tag">NIST FIPS</span><span class="tag">DORA</span>
+          <span class="tag">NIS2</span><span class="tag">SNDL</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">04 — Cloud</div>
+        <div class="service-name">Cloud Security</div>
+        <div class="service-desc">AWS / Azure / GCP misconfiguration analysis, IAM privilege escalation paths, attack surface enumeration. Compliance mapping: CIS, PCI DSS, ISO 27001.</div>
+        <div class="service-tags">
+          <span class="tag">AWS</span><span class="tag">Azure</span>
+          <span class="tag">GCP</span><span class="tag">IAM</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">05 — Pentest</div>
+        <div class="service-name">Penetration Testing</div>
+        <div class="service-desc">Web, API, mobile, IaC, AI systems. Privacy-by-Design: data analyzed in controlled local environments, never transmitted externally without anonymization.</div>
+        <div class="service-tags">
+          <span class="tag">Web</span><span class="tag">API</span>
+          <span class="tag">Mobile</span><span class="tag">Privacy-by-Design</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">06 — DevSecOps</div>
+        <div class="service-name">DevSecOps Integration</div>
+        <div class="service-desc">Security gates in CI/CD, GitHub Actions hardening, container scanning, secrets management, SAST/DAST pipeline design.</div>
+        <div class="service-tags">
+          <span class="tag">CI/CD</span><span class="tag">GitHub Actions</span><span class="tag">SAST/DAST</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">07 — Red/Purple</div>
+        <div class="service-name">Red Team / Purple Team</div>
+        <div class="service-desc">Adversary simulation with documented TTPs. Human-in-the-loop at every decision point. No automated-only outputs.</div>
+        <div class="service-tags">
+          <span class="tag">TTPs</span><span class="tag">MITRE ATT&amp;CK</span><span class="tag">Human Review</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-inner">
+    <p class="section-label reveal">Open Source</p>
+    <h2 class="section-title reveal">Tools I Built</h2>
+    <div class="section-divider reveal"></div>
+    <p class="section-sub reveal">Public tools born from real engagements. I use them on every assessment.</p>
+    <div class="tools-grid">
+
+      <a href="https://github.com/MK-ScorpioSec/pq-audit" target="_blank" rel="noopener" class="tool-card reveal">
+        <div class="tool-header">
+          <div class="tool-name">pq-audit</div>
+          <span class="tool-status status-live">Live</span>
+        </div>
+        <div class="tool-desc">Post-quantum cryptography audit framework — 9 layers: code, IaC, certs, network, containers, API, compliance. Classifies exposure as BROKEN_NOW or SNDL_VULNERABLE.</div>
+        <div class="tool-finding">BROKEN_NOW — algorithm deprecated, no quantum computer needed</div>
+        <div class="service-tags" style="margin-bottom:1rem">
+          <span class="tag">PQC</span><span class="tag">NIST FIPS</span><span class="tag">DORA Art.9</span>
+        </div>
+        <div class="tool-link">View on GitHub</div>
+      </a>
+
+      <a href="https://github.com/MK-ScorpioSec/research" target="_blank" rel="noopener" class="tool-card reveal">
+        <div class="tool-header">
+          <div class="tool-name">research</div>
+          <span class="tool-status status-live">Live</span>
+        </div>
+        <div class="tool-desc">IaC security research — TerraGoat gap analysis: 187 undocumented Trivy findings + 2 pq-audit crypto findings not covered by standard scanners.</div>
+        <div class="tool-finding">187 findings Trivy documented + 2 crypto gaps standard scanners miss</div>
+        <div class="service-tags" style="margin-bottom:1rem">
+          <span class="tag">IaC</span><span class="tag">TerraGoat</span><span class="tag">Gap Analysis</span>
+        </div>
+        <div class="tool-link">View on GitHub</div>
+      </a>
+
+      <a href="https://github.com/MK-ScorpioSec/mcp-scanner" target="_blank" rel="noopener" class="tool-card reveal">
+        <div class="tool-header">
+          <div class="tool-name">mcp-scanner</div>
+          <span class="tool-status status-soon">Coming Soon</span>
+        </div>
+        <div class="tool-desc">MCP server security scanner. Audits Model Context Protocol servers for misconfigurations, excessive permissions, and tool-use abuse vectors.</div>
+        <div class="tool-finding">Surface: tool injection, permission sprawl, server misconfiguration</div>
+        <div class="service-tags" style="margin-bottom:1rem">
+          <span class="tag">MCP</span><span class="tag">LLM Security</span><span class="tag">Agentic</span>
+        </div>
+        <div class="tool-link">Follow on GitHub</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-inner">
+    <p class="section-label reveal">Published Work</p>
+    <h2 class="section-title reveal">Research</h2>
+    <div class="section-divider reveal"></div>
+    <div class="research-card">
+      <div class="reveal">
+        <span class="research-badge">Case Study — TerraGoat IaC Analysis</span>
+        <h3 class="research-title">What Trivy doesn't tell you about your IaC</h3>
+        <p class="research-text">
+          TerraGoat is the industry-standard intentionally-vulnerable Terraform repository,
+          widely used to test IaC security scanners. I ran it through a multi-scanner pipeline
+          and documented what falls through the cracks — including cryptographic exposures
+          that no standard scanner classifies today.
+        </p>
+        <p class="research-text">The gap matrix methodology is now part of every IaC engagement I run.</p>
+        <a href="https://github.com/MK-ScorpioSec/research" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block">Read the Research →</a>
+      </div>
+      <div class="research-stats reveal">
+        <div class="r-stat">
+          <div class="r-stat-num">187</div>
+          <div class="r-stat-info">
+            <strong>Undocumented Findings</strong>
+            <span>Trivy findings not in official TerraGoat docs</span>
+          </div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">2</div>
+          <div class="r-stat-info">
+            <strong>Crypto Findings</strong>
+            <span>pq-audit classified — missed by all standard scanners</span>
+          </div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">3</div>
+          <div class="r-stat-info">
+            <strong>Scanners Compared</strong>
+            <span>Trivy · Checkov · pq-audit — gap matrix output</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="section-label reveal">Solo operator</p>
+    <h2 class="section-title reveal">About</h2>
+    <div class="section-divider reveal"></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p><strong>Mike Martínez Oroz</strong> — Founder &amp; Security Specialist, MK ScorpioSec.</p>
+        <p>18+ years in IT security. I don't run a company with account managers and subcontractors.
+        When you hire MK ScorpioSec, you work directly with me — the person writing the code, running the scans, and reviewing every finding.</p>
+        <p>I build the tools I use. <strong>pq-audit</strong> and the IaC research pipeline weren't academic exercises — they came out of real engagements where existing tools left gaps I couldn't accept.</p>
+        <p>Every assessment applies Privacy-by-Design from the start: client data stays in controlled local environments and never moves to cloud infrastructure without explicit anonymization.</p>
+        <p style="font-family:var(--font-mono);font-size:0.78rem;color:var(--gold);letter-spacing:0.05em;margin-top:1.5rem">
+          "I don't hunt threats. I am the threat."
+        </p>
+      </div>
+      <div class="about-principles reveal">
+        <div class="principle">
+          <div class="principle-icon">⚙</div>
+          <div>
+            <div class="principle-title">I build the tools I use</div>
+            <div class="principle-desc">No off-the-shelf reports. The tooling is built for the specific attack surface.</div>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle-icon">👤</div>
+          <div>
+            <div class="principle-title">Human review, always</div>
+            <div class="principle-desc">AI accelerates the analysis. Every finding goes through human judgment before it reaches you.</div>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle-icon">🔒</div>
+          <div>
+            <div class="principle-title">Privacy-by-Design</div>
+            <div class="principle-desc">Client data analyzed locally. No external transmission without anonymization. No exceptions.</div>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle-icon">📐</div>
+          <div>
+            <div class="principle-title">Gap-matrix methodology</div>
+            <div class="principle-desc">Multiple scanners, documented overlaps and blind spots. You see what each tool misses.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label reveal">Get in touch</p>
+    <h2 class="section-title reveal">Contact</h2>
+    <div class="section-divider reveal"></div>
+    <p class="section-sub reveal">Ready to discuss an engagement? No sales funnel, no intake form that goes nowhere.</p>
+    <div class="contact-grid">
+
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">Name</label>
+            <input type="text" id="fname" placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" placeholder="you@company.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fservice">Service of Interest</label>
+          <select id="fservice">
+            <option value="" disabled selected>Select a service...</option>
+            <option>IaC Security Analysis</option>
+            <option>AI &amp; LLM Security Assessment</option>
+            <option>Post-Quantum Cryptography Audit</option>
+            <option>Cloud Security</option>
+            <option>Penetration Testing</option>
+            <option>DevSecOps Integration</option>
+            <option>Red Team / Purple Team</option>
+            <option>Other / Not sure</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fmsg">Message</label>
+          <textarea id="fmsg" placeholder="Briefly describe your environment and what you need assessed..."></textarea>
+        </div>
+        <button type="button" onclick="sendEmail()" class="btn-primary" style="width:100%;cursor:pointer;border:none;font-size:0.78rem">
+          Send via Email →
+        </button>
+        <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);text-align:center">
+          Opens your email client · No data collected server-side
+        </p>
+      </div>
+
+      <div class="contact-channels reveal">
+        <h3>Direct Channels</h3>
+
+        <a class="channel" href="mailto:mike@mkscorpiosec.com">
+          <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <div><span class="channel-label">Email</span><span class="channel-value">mike@mkscorpiosec.com</span></div>
+        </a>
+
+        <a class="channel" href="https://wa.me/5491166470166" target="_blank" rel="noopener">
+          <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+          <div><span class="channel-label">WhatsApp Business</span><span class="channel-value">+54 9 11 6647-0166</span></div>
+        </a>
+
+        <a class="channel" href="https://t.me/mkscorpiosec_bot" target="_blank" rel="noopener">
+          <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+          <div><span class="channel-label">Telegram</span><span class="channel-value">@mkscorpiosec_bot</span></div>
+        </a>
+
+        <a class="channel" href="https://linkedin.com/company/mk-scorpiosec" target="_blank" rel="noopener">
+          <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div>
+          <div><span class="channel-label">LinkedIn</span><span class="channel-value">linkedin.com/company/mk-scorpiosec</span></div>
+        </a>
+
+        <a class="channel" href="https://github.com/mk-scorpiosec" target="_blank" rel="noopener">
+          <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div>
+          <div><span class="channel-label">GitHub</span><span class="channel-value">github.com/mk-scorpiosec</span></div>
+        </a>
+
+        <a class="channel" href="https://dev.to/mkscorpiosec" target="_blank" rel="noopener">
+          <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.3zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.6-2.45.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"/></svg></div>
+          <div><span class="channel-label">Dev.to</span><span class="channel-value">dev.to/mkscorpiosec</span></div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a href="#hero" class="footer-logo">
+          <img src="assets/logo-sq.png" alt="MK ScorpioSec">
+          <span class="footer-logo-text"><span class="mk">MK</span> SCORPIOSEC</span>
+        </a>
+        <p class="footer-tagline">AI-Driven Pentesting, Compliance &amp; Security Engineering. Buenos Aires, Argentina — 2026.</p>
+        <div class="footer-social">
+          <a href="https://github.com/mk-scorpiosec" target="_blank" rel="noopener" class="social-link" title="GitHub">GH</a>
+          <a href="https://linkedin.com/company/mk-scorpiosec" target="_blank" rel="noopener" class="social-link" title="LinkedIn Company">in</a>
+          <a href="https://linkedin.com/in/mikemo83/" target="_blank" rel="noopener" class="social-link" title="LinkedIn Personal">Li</a>
+          <a href="https://t.me/mkscorpiosec_bot" target="_blank" rel="noopener" class="social-link" title="Telegram">TG</a>
+          <a href="https://dev.to/mkscorpiosec" target="_blank" rel="noopener" class="social-link" title="Dev.to">DV</a>
+        </div>
+      </div>
+      <div class="footer-links-group">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#tools">Open Source Tools</a></li>
+          <li><a href="#research">Research</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Tools</h4>
+        <ul>
+          <li><a href="https://github.com/MK-ScorpioSec/pq-audit" target="_blank" rel="noopener">pq-audit</a></li>
+          <li><a href="https://github.com/MK-ScorpioSec/research" target="_blank" rel="noopener">research</a></li>
+          <li><a href="https://github.com/MK-ScorpioSec/mcp-scanner" target="_blank" rel="noopener">mcp-scanner</a></li>
+          <li><a href="https://github.com/mk-scorpiosec" target="_blank" rel="noopener">All repos →</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="cookies.html">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Mike Martínez Oroz · MK ScorpioSec · All rights reserved · Argentina</p>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="cookies.html">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile menu
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Contact form → mailto
+function sendEmail() {
+  const name    = document.getElementById('fname').value.trim();
+  const email   = document.getElementById('femail').value.trim();
+  const service = document.getElementById('fservice').value;
+  const msg     = document.getElementById('fmsg').value.trim();
+  if (!name && !msg) { alert('Please fill in at least your name and message.'); return; }
+  const subject = service
+    ? `[${service}] Inquiry from ${name || 'website'}`
+    : `Security Inquiry from ${name || 'website'}`;
+  const body = `Name: ${name || 'Not provided'}\nEmail: ${email || 'Not provided'}\nService: ${service || 'Not specified'}\n\nMessage:\n${msg}`;
+  window.location.href = `mailto:mike@mkscorpiosec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+</script>
+</body>
+</html>
