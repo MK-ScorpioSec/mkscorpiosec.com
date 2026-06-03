@@ -18,6 +18,24 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+// Email channel: mobile → mailto, desktop → copy + toast
+function handleEmailClick(e) {
+  e.preventDefault();
+  const email = atob('Y29udGFjdEBta3Njb3JwaW9zZWMuY29t');
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = 'mailto:' + email;
+  } else {
+    navigator.clipboard.writeText(email).then(() => {
+      const toast = document.getElementById('email-toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }).catch(() => {
+      window.location.href = 'mailto:' + email;
+    });
+  }
+}
+
 // Dynamic posts feed from /posts.json
 (async () => {
   const feed = document.getElementById('posts-feed');

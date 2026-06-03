@@ -2,7 +2,7 @@
   "posts": [
     {
       "title": "What Trivy doesn't tell you about your IaC",
-      "url": "https://github.com/MK-ScorpioSec/research",
+      "url": "https://github.com/MK-ScorpioSec/research/tree/main/terragoat-2026-04",
       "date": "2026-05",
       "platform": "GitHub",
       "tag": "Case Study"
