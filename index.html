@@ -424,22 +424,30 @@ section { padding: 5rem 2rem; }
 .form-group textarea { resize: vertical; min-height: 130px; }
 .contact-channels { display: flex; flex-direction: column; gap: 1rem; }
 .contact-channels h3 { font-family: var(--font-head); font-weight: 600; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--light); margin-bottom: 0.5rem; }
-.contact-layout { display: grid; grid-template-columns: minmax(260px, 400px) 1fr; gap: 2rem; align-items: stretch; }
+.contact-bg {
+  position: relative; border-radius: 6px; overflow: hidden;
+  background: url('assets/background_contact.png') center/cover no-repeat;
+  padding: 2.5rem 2rem;
+}
+.contact-bg::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(10,8,6,0.55); pointer-events: none;
+}
+.contact-channels { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 0.65rem; max-width: 420px; }
+.contact-channels h3 { font-family: var(--font-head); font-weight: 600; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.75rem; }
 .channel {
   display: flex; align-items: center; gap: 0.75rem;
-  text-decoration: none; color: var(--muted);
-  padding: 0.6rem 0.9rem;
-  background: var(--dark3); border: 1px solid var(--border);
+  text-decoration: none; color: var(--gold-light);
+  padding: 0.55rem 0.85rem;
+  background: rgba(14,13,12,0.6); border: 1px solid rgba(201,146,42,0.3);
   border-radius: 3px; transition: all 0.2s; font-size: 0.85rem;
+  backdrop-filter: blur(4px);
 }
-.channel:hover { border-color: var(--red); color: var(--light); transform: translateX(3px); }
-.channel-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.channel-icon svg { width: 15px; height: 15px; fill: var(--red); }
-.channel-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); display: block; margin-bottom: 0.05rem; }
-.channel-value { font-size: 0.8rem; }
-.contact-scorpion { display: flex; align-items: stretch; }
-.contact-scorpion img { width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 4px; opacity: 0.85; min-height: 100%; }
-@media (max-width: 600px) { .contact-layout { grid-template-columns: 1fr; } .contact-scorpion { display: none; } }
+.channel:hover { border-color: var(--gold); color: #fff; transform: translateX(3px); }
+.channel-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.channel-icon svg { width: 14px; height: 14px; fill: var(--gold); }
+.channel-label { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.04rem; }
+.channel-value { font-size: 0.78rem; color: var(--gold-light); }
 
 /* ── FOOTER ── */
 footer { background: var(--dark2); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
@@ -796,9 +804,8 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
     <h2 class="section-title reveal">Contact</h2>
     <div class="section-divider reveal"></div>
     <p class="section-sub reveal">Ready to discuss an engagement? Reach out directly — no intake forms.</p>
-    <div class="contact-layout">
-
-      <div class="contact-channels reveal">
+    <div class="contact-bg reveal">
+      <div class="contact-channels">
         <h3>Direct Channels</h3>
 
         <a class="channel" href="#" onclick="handleEmailClick(event)" title="Email">
@@ -833,11 +840,6 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
         </a>
 
       </div>
-
-      <div class="contact-scorpion reveal">
-        <img src="assets/background_contact.png" alt="MK ScorpioSec" loading="lazy">
-      </div>
-
     </div>
   </div>
 </section>
