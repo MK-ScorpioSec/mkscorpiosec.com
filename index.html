@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/assets/css/fonts.css">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self' 'sha256-ZCSgKhyyzDu3am00sL8EQqJDYLPLDDTgwhLEsJYU8zs='; img-src 'self' data: https:; connect-src 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests;">
 <meta http-equiv="X-Frame-Options" content="DENY">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="no-referrer-when-downgrade">
@@ -730,6 +730,7 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
         </div>
       </div>
     </div>
+    <div id="posts-feed" style="margin-top:2.5rem"></div>
   </div>
 </section>
 
@@ -790,52 +791,15 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
     <p class="section-label reveal">Get in touch</p>
     <h2 class="section-title reveal">Contact</h2>
     <div class="section-divider reveal"></div>
-    <p class="section-sub reveal">Ready to discuss an engagement? No sales funnel, no intake form that goes nowhere.</p>
-    <div class="contact-grid">
-
-      <div class="contact-form reveal">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="fname">Name</label>
-            <input type="text" id="fname" placeholder="Your name">
-          </div>
-          <div class="form-group">
-            <label for="femail">Email</label>
-            <input type="email" id="femail" placeholder="you@company.com">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="fservice">Service of Interest</label>
-          <select id="fservice">
-            <option value="" disabled selected>Select a service...</option>
-            <option>IaC Security Analysis</option>
-            <option>AI &amp; LLM Security Assessment</option>
-            <option>Post-Quantum Cryptography Audit</option>
-            <option>Cloud Security</option>
-            <option>Penetration Testing</option>
-            <option>DevSecOps Integration</option>
-            <option>Red Team / Purple Team</option>
-            <option>Other / Not sure</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="fmsg">Message</label>
-          <textarea id="fmsg" placeholder="Briefly describe your environment and what you need assessed..."></textarea>
-        </div>
-        <button type="button" onclick="sendEmail()" class="btn-primary" style="width:100%;cursor:pointer;border:none;font-size:0.78rem">
-          Send via Email →
-        </button>
-        <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);text-align:center">
-          Opens your email client · No data collected server-side
-        </p>
-      </div>
+    <p class="section-sub reveal">Ready to discuss an engagement? Reach out directly — no intake forms.</p>
+    <div>
 
       <div class="contact-channels reveal">
         <h3>Direct Channels</h3>
 
-        <a class="channel" href="mailto:mike@mkscorpiosec.com">
+        <a class="channel" href="#" onclick="this.href='mailto:'+atob('Y29udGFjdEBta3Njb3JwaW9zZWMuY29t');return false;" title="Email">
           <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
-          <div><span class="channel-label">Email</span><span class="channel-value">mike@mkscorpiosec.com</span></div>
+          <div><span class="channel-label">Email</span><span class="channel-value">contact&#64;mkscorpiosec&#46;com</span></div>
         </a>
 
         <a class="channel" href="https://wa.me/5491166470166" target="_blank" rel="noopener">
@@ -882,6 +846,7 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
           <a href="https://github.com/mk-scorpiosec" target="_blank" rel="noopener" class="social-link" title="GitHub">GH</a>
           <a href="https://linkedin.com/company/mk-scorpiosec" target="_blank" rel="noopener" class="social-link" title="LinkedIn Company">in</a>
           <a href="https://linkedin.com/in/mikemo83/" target="_blank" rel="noopener" class="social-link" title="LinkedIn Personal">Li</a>
+          <a href="https://medium.com/@mkscorpiosec" target="_blank" rel="noopener" class="social-link" title="Medium">MD</a>
           <a href="https://t.me/mkscorpiosec_bot" target="_blank" rel="noopener" class="social-link" title="Telegram">TG</a>
           <a href="https://dev.to/mkscorpiosec" target="_blank" rel="noopener" class="social-link" title="Dev.to">DV</a>
         </div>
@@ -925,40 +890,6 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
   </div>
 </footer>
 
-<script>
-// Nav scroll
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-});
-
-// Mobile menu
-function toggleMenu() {
-  document.getElementById('navLinks').classList.toggle('open');
-}
-document.querySelectorAll('.nav-links a').forEach(a => {
-  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
-});
-
-// Reveal on scroll
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Contact form → mailto
-function sendEmail() {
-  const name    = document.getElementById('fname').value.trim();
-  const email   = document.getElementById('femail').value.trim();
-  const service = document.getElementById('fservice').value;
-  const msg     = document.getElementById('fmsg').value.trim();
-  if (!name && !msg) { alert('Please fill in at least your name and message.'); return; }
-  const subject = service
-    ? `[${service}] Inquiry from ${name || 'website'}`
-    : `Security Inquiry from ${name || 'website'}`;
-  const body = `Name: ${name || 'Not provided'}\nEmail: ${email || 'Not provided'}\nService: ${service || 'Not specified'}\n\nMessage:\n${msg}`;
-  window.location.href = `mailto:mike@mkscorpiosec.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-</script>
+<script src="/assets/js/main.js"></script>
 </body>
 </html>
