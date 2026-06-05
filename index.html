@@ -555,7 +555,7 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
   </div>
   <div class="stat reveal">
     <div class="stat-num">187</div>
-    <div class="stat-label">Undocumented findings (TerraGoat)</div>
+    <div class="stat-label">Trivy gaps found (TerraGoat)</div>
   </div>
   <div class="stat reveal">
     <div class="stat-num">10</div>
@@ -661,7 +661,7 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
           <div class="tool-name">pq-audit</div>
           <span class="tool-status status-live">Live</span>
         </div>
-        <div class="tool-desc">Post-quantum cryptography audit framework — 10 layers: code, IaC, certs, TLS, containers, cloud, SSH, network, web3, deps. Classifies exposure as BROKEN_NOW or SNDL_VULNERABLE. Research Series #1: 4 findings in TerraGoat that Trivy's 243-finding scan missed entirely.</div>
+        <div class="tool-desc">Post-quantum cryptography audit framework — 10 layers: code, cloud, deps, config, certs, network, containers, api, compliance, web3. Classifies exposure as BROKEN_NOW or SNDL_VULNERABLE. Research Series #1: 4 findings in TerraGoat that Trivy's 243-finding scan missed entirely.</div>
         <div class="tool-finding">TerraGoat azure/app_service.tf:29 — TLS 1.0 minimum — Trivy: 243 findings, 0 crypto. pq-audit: 4.</div>
         <div class="service-tags" style="margin-bottom:1rem">
           <span class="tag">PQC</span><span class="tag">NIST FIPS</span><span class="tag">DORA Art.9</span><span class="tag">IaC</span>
@@ -674,8 +674,8 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
           <div class="tool-name">research</div>
           <span class="tool-status status-live">Live</span>
         </div>
-        <div class="tool-desc">IaC security research — TerraGoat gap analysis: 187 undocumented Trivy findings + 2 pq-audit crypto findings not covered by standard scanners.</div>
-        <div class="tool-finding">187 findings Trivy documented + 2 crypto gaps standard scanners miss</div>
+        <div class="tool-desc">IaC security research — TerraGoat gap analysis: 187 undocumented findings across Checkov, Trivy, and pq-audit. Running only the official scanner shows 23% of actual exposure.</div>
+        <div class="tool-finding">187 undocumented findings — official scanner covers only 23% of actual exposure</div>
         <div class="service-tags" style="margin-bottom:1rem">
           <span class="tag">IaC</span><span class="tag">TerraGoat</span><span class="tag">Gap Analysis</span>
         </div>
