@@ -661,10 +661,10 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
           <div class="tool-name">pq-audit</div>
           <span class="tool-status status-live">Live</span>
         </div>
-        <div class="tool-desc">Post-quantum cryptography audit framework — 9 layers: code, IaC, certs, network, containers, API, compliance. Classifies exposure as BROKEN_NOW or SNDL_VULNERABLE.</div>
-        <div class="tool-finding">BROKEN_NOW — algorithm deprecated, no quantum computer needed</div>
+        <div class="tool-desc">Post-quantum cryptography audit framework — 10 layers: code, IaC, certs, TLS, containers, cloud, SSH, network, web3, deps. Classifies exposure as BROKEN_NOW or SNDL_VULNERABLE. Research Series #1: 4 findings in TerraGoat that Trivy's 243-finding scan missed entirely.</div>
+        <div class="tool-finding">TerraGoat azure/app_service.tf:29 — TLS 1.0 minimum — Trivy: 243 findings, 0 crypto. pq-audit: 4.</div>
         <div class="service-tags" style="margin-bottom:1rem">
-          <span class="tag">PQC</span><span class="tag">NIST FIPS</span><span class="tag">DORA Art.9</span>
+          <span class="tag">PQC</span><span class="tag">NIST FIPS</span><span class="tag">DORA Art.9</span><span class="tag">IaC</span>
         </div>
         <div class="tool-link">View on GitHub</div>
       </a>
@@ -685,14 +685,14 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
       <a href="https://github.com/MK-ScorpioSec/mcp-scanner" target="_blank" rel="noopener" class="tool-card reveal">
         <div class="tool-header">
           <div class="tool-name">mcp-scanner</div>
-          <span class="tool-status status-soon">Coming Soon</span>
+          <span class="tool-status status-live">Live</span>
         </div>
-        <div class="tool-desc">MCP server security scanner. Audits Model Context Protocol servers for misconfigurations, excessive permissions, and tool-use abuse vectors.</div>
-        <div class="tool-finding">Surface: tool injection, permission sprawl, server misconfiguration</div>
+        <div class="tool-desc">Audit MCP servers before connecting AI agents. 9 security checks: CVE exposure, tool poisoning (Unicode/BiDi), auth, SSRF, credential leaks, supply chain (MITRE T1195.002). OWASP LLM01/LLM07/LLM08/LLM09/LLM10 coverage.</div>
+        <div class="tool-finding">LLM01 — tool descriptions can carry hidden instructions your agent executes</div>
         <div class="service-tags" style="margin-bottom:1rem">
-          <span class="tag">MCP</span><span class="tag">LLM Security</span><span class="tag">Agentic</span>
+          <span class="tag">MCP</span><span class="tag">LLM Security</span><span class="tag">OWASP LLM Top 10</span><span class="tag">Agentic</span>
         </div>
-        <div class="tool-link">Follow on GitHub</div>
+        <div class="tool-link">View on GitHub</div>
       </a>
 
     </div>
