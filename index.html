@@ -674,10 +674,10 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
           <div class="tool-name">research</div>
           <span class="tool-status status-live">Live</span>
         </div>
-        <div class="tool-desc">IaC security research — TerraGoat gap analysis: 187 undocumented findings across Checkov, Trivy, and pq-audit. Running only the official scanner shows 23% of actual exposure.</div>
-        <div class="tool-finding">187 undocumented findings — official scanner covers only 23% of actual exposure</div>
+        <div class="tool-desc">Applied security research — IaC and AI agent analysis. 2 published case studies: TerraGoat (187 undocumented findings) and PentAGI (73.7% threat rate, 462 exfiltration events in behavioral analysis).</div>
+        <div class="tool-finding">CS#2: PentAGI — 4 CRITICAL static findings + 462 EXFILTRATION events in dynamic analysis</div>
         <div class="service-tags" style="margin-bottom:1rem">
-          <span class="tag">IaC</span><span class="tag">TerraGoat</span><span class="tag">Gap Analysis</span>
+          <span class="tag">IaC</span><span class="tag">AI Agents</span><span class="tag">TerraGoat</span><span class="tag">PentAGI</span>
         </div>
         <div class="tool-link">View on GitHub</div>
       </a>
@@ -742,6 +742,46 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
         </div>
       </div>
     </div>
+
+    <div class="research-card" style="margin-top:4rem">
+      <div class="reveal">
+        <span class="research-badge">Case Study #2 — PentAGI AI Agent Analysis</span>
+        <h3 class="research-title">What happens when an AI agent runs loose in your environment</h3>
+        <p class="research-text">
+          PentAGI automates penetration testing using LLM-orchestrated agents and MCP tools.
+          I audited the platform itself — the tool-testing-the-tool scenario. Static analysis
+          uncovered 4 CRITICAL findings including Docker socket exposure and root execution.
+          Behavioral monitoring revealed 462 exfiltration events and 24 prompt injection
+          attempts in a single session.
+        </p>
+        <p class="research-text">73.7% of observed behaviors classified as threats across 274 analyzed requests.</p>
+        <a href="https://github.com/MK-ScorpioSec/research/tree/main/pentagi-2026-04" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block">Read the Research →</a>
+      </div>
+      <div class="research-stats reveal">
+        <div class="r-stat">
+          <div class="r-stat-num">462</div>
+          <div class="r-stat-info">
+            <strong>EXFILTRATION Events</strong>
+            <span>Env vars, filesystem, credential probing — one session</span>
+          </div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">73.7%</div>
+          <div class="r-stat-info">
+            <strong>Threat Rate</strong>
+            <span>274 behavioral requests — Falco runtime monitoring</span>
+          </div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">4</div>
+          <div class="r-stat-info">
+            <strong>CRITICAL Findings</strong>
+            <span>docker.sock · root · NET_ADMIN · 1,144 Docker API calls</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="posts-feed" style="margin-top:2.5rem"></div>
   </div>
 </section>
