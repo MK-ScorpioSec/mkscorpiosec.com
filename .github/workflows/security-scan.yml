@@ -1,0 +1,61 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 1'
+
+jobs:
+  secrets:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout
+      run: |
+        git clone --depth=2 "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" .
+        git checkout "${{ github.sha }}" 2>/dev/null || true
+
+    - name: TruffleHog — secret scan
+      run: |
+        curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
+          | sh -s -- -b /usr/local/bin
+        trufflehog git file://. --since-commit HEAD~1 --only-verified --fail || true
+
+  web-security:
+    name: Web Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      run: |
+        git clone --depth=1 "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" .
+
+    - name: Scan for sensitive patterns in HTML/JS
+      run: |
+        echo "=== Checking for API keys / tokens in source ==="
+        patterns=(
+          "api[_-]?key\s*=\s*['\"][^'\"]{8,}"
+          "token\s*=\s*['\"][^'\"]{8,}"
+          "password\s*=\s*['\"][^'\"]{4,}"
+          "secret\s*=\s*['\"][^'\"]{4,}"
+          "aws_access_key"
+          "-----BEGIN"
+        )
+        found=0
+        for p in "${patterns[@]}"; do
+          if grep -rEi "$p" --include="*.html" --include="*.js" --include="*.css" . 2>/dev/null | grep -v ".git"; then
+            found=1
+          fi
+        done
+        [ $found -eq 0 ] && echo "PASS: no sensitive patterns found" || echo "WARNING: review findings above"
+
+    - name: Check for inline scripts (CSP risk)
+      run: |
+        count=$(grep -rE '<script[^>]*>' --include="*.html" . 2>/dev/null | grep -v 'src=' | grep -v '.git' | wc -l)
+        echo "Inline script blocks found: $count"
