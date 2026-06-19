@@ -742,6 +742,42 @@ footer { background: var(--dark2); border-top: 1px solid var(--border); padding:
         </div>
       </div>
     </div>
+
+    <div class="section-divider reveal" style="margin:3rem 0"></div>
+    <div class="research-card">
+      <div class="reveal">
+        <span class="research-badge">Case Study — PentAGI AI Agent Analysis</span>
+        <h3 class="research-title">When the pentesting tool is the threat vector</h3>
+        <p class="research-text">
+          PentAGI is an autonomous AI-powered penetration testing agent. I analyzed it from the inside — static codebase review, then a full dynamic sandbox with custom instrumentation built from my own stack. No real API keys. No internet access. Just the agent and a controlled environment.
+        </p>
+        <p class="research-text">The findings were not about PentAGI being malicious. The finding was structural: any AI agent with shell execution generates LLM traffic indistinguishable from an active attacker.</p>
+        <a href="https://github.com/MK-ScorpioSec/research/tree/main/pentagi-2026-04" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block">Read the Research &#8594;</a>
+      </div>
+      <div class="research-stats reveal">
+        <div class="r-stat">
+          <div class="r-stat-num">73.7%</div>
+          <div class="r-stat-info">
+            <strong>Threat Rate</strong>
+            <span>Of all agent-to-LLM traffic contained detected threat patterns</span>
+          </div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">4</div>
+          <div class="r-stat-info">
+            <strong>Critical Findings</strong>
+            <span>CVSS 9.8 — Docker socket dependency, root execution, NET_ADMIN</span>
+          </div>
+        </div>
+        <div class="r-stat">
+          <div class="r-stat-num">274</div>
+          <div class="r-stat-info">
+            <strong>Intercepted Requests</strong>
+            <span>Agent-to-LLM calls analyzed via custom sandbox instrumentation</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="posts-feed" style="margin-top:2.5rem"></div>
   </div>
 </section>
